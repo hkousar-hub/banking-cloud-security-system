@@ -1,10 +1,9 @@
-# k8s/backend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -14,14 +13,27 @@ spec:
         app: backend
     spec:
       containers:
-        - name: backend
-          image: your-dockerhub-username/backend:latest
-          ports:
-            - containerPort: 5000
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
+      - name: backend
+        image: backend:latest   # replace with your image if needed
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  type: LoadBalancer
+  selector:
+    app: backend
+  ports:
+    - port: 5000
+      targetPort: 5000
+      # let K8s assign nodePort automatically

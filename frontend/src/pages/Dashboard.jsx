@@ -16,6 +16,9 @@ import { Bar } from "react-chartjs-2";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+console.log('Dashboard API URL:', API_URL);
+
 const Dashboard = () => {
   const [logs, setLogs] = useState([]);
   const [suspicious, setSuspicious] = useState([]);
@@ -28,22 +31,22 @@ const Dashboard = () => {
   }, []);
 
   const fetchLogs = async () => {
-    const res = await axios.get("http://localhost:5000/api/logs");
+    const res = await axios.get(`${API_URL}/api/logs`);
     setLogs(res.data);
   };
 
   const fetchSuspicious = async () => {
-    const res = await axios.get("http://localhost:5000/api/suspicious");
+    const res = await axios.get(`${API_URL}/api/suspicious`);
     setSuspicious(res.data);
   };
 
   const fetchGeo = async () => {
-    const res = await axios.get("http://localhost:5000/api/geo-logs");
+    const res = await axios.get(`${API_URL}/api/geo-logs`);
     setGeoData(res.data);
   };
 
   const blockIP = async (ip) => {
-    await axios.post("http://localhost:5000/api/block-ip", { ip });
+    await axios.post(`${API_URL}/api/block-ip`, { ip });
     alert("Blocked 🚫");
   };
 

@@ -1,27 +1,40 @@
-# k8s/frontend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: banking-frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: banking-frontend
   template:
     metadata:
       labels:
-        app: frontend
-    spec:
-      containers:
-        - name: frontend
-          image: your-dockerhub-username/frontend:latest
-          ports:
-            - containerPort: 5173
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+        app: banking-frontend
+  spec:
+    containers:
+    - name: frontend
+      image: kouserdev/banking-frontend:latest
+    ports:
+    - containerPort: 80
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "200m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+         
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: banking-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: banking-frontend
+  ports:
+    - port: 5173
+      targetPort: 5173
+      # let K8s assign nodePort automatically

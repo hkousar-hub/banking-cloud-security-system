@@ -1,13 +1,11 @@
-# k8s/backend-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service
+  name: backend-svc
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: backend
   ports:
     - port: 5000
       targetPort: 5000
-      nodePort: 30007

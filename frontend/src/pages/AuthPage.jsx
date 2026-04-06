@@ -1,8 +1,15 @@
 import { useState } from "react";
 import "./RF.css";
 
-const API_URL = import.meta.env.VITE_API_URL;
-
+const DEFAULT_API_URL = `${window.location.protocol}//${window.location.hostname}:5000`;
+const API_URL = import.meta.env.VITE_API_URL || DEFAULT_API_URL;
+console.log('API URL:', API_URL);
+export const login = (data) =>
+  fetch(`${API_URL}/api/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
 function AuthPage() {
   const [isActive, setIsActive] = useState(false);
 

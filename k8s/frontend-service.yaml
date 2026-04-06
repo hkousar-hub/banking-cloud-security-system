@@ -1,13 +1,11 @@
-# k8s/frontend-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service
+  name: frontend-svc
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: frontend
   ports:
-    - port: 5173
+    - port: 80
       targetPort: 5173
-      nodePort: 30008
