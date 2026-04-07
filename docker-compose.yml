@@ -1,22 +1,13 @@
-
-
 services:
-  backend:
-    build: ./backend
-    image: kouserdev/banking-backend:latest
+  app:
+    build: .
+    image: kouserdev/banking-app:latest
     ports:
-      - "5000:5000"
+      - "80:80"
     environment:
       - JWT_SECRET=supersecret
-    depends_on: []
+    volumes:
+      - banking-data:/app/data
 
-  frontend:
-    build:
-      context: ./frontend
-      args:
-        VITE_API_URL: http://localhost:5000
-    image: kouserdev/banking-frontend:latest
-    ports:
-        - "5173:80"
-    depends_on:
-      - backend
+volumes:
+  banking-data:
